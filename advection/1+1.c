@@ -21,6 +21,7 @@
 #define b 40.
 
 double dt = .05;
+/*double dt = .1;*/
 double x[N], u[N], w[N];
 double dx = (b-a)/( (double) N );
 
@@ -139,6 +140,7 @@ void ic() {
   for (int i=0; i<N; i++) {
                             x[i] = a + dx*((double) i)   ; 
                             u[i] = 1.                   ;
+                            /*w[i] = f0( x[i] - 5. )      ;*/
                             w[i] = f0( x[i] - 10. )      ;
   }
   return;
@@ -190,11 +192,20 @@ void eval_x (int Nt, double del_t) { dt = del_t;
 
 int main() {
 
+  
   eval_x(200, .02);
   eval_x(400, .02);
   eval_x(600, .02);
   eval_x(800, .02);
   eval_x(1000, .02);
+
+  /*eval_3d(20);*/
+
+  /* 
+  eval_x(40, .2);
+  eval_x(80, .1);
+  eval_x(160, .05);
+  */
 
   printf("Coordinates:  X = (%.3f, %.3f), \t N=%d", a, b, N);
   printf("\n (dt, dx) = (%.3f, %.3f)", dt, dx);

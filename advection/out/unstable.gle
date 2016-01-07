@@ -5,8 +5,14 @@ set hei 0.6
 
 include "color.gle"
 
+! N = 100; (a,b) = (0,40)
+! dt = .4
+! w0 = 1/[ 1+(x-5)*(x-5) ]
+! eval_3d(20);
+
 begin fitz
-  data "w, (forward).dat"
+  !data "w, (forward).dat"
+  data "3D, t=8.000-(forward).dat"
   x from 0 to 8 step .3
   y from 0 to 30 step .4
   ncontour 6
@@ -14,7 +20,7 @@ end fitz
 
 begin surface
   size 7 7 
-  data "w, (forward).z"
+  data "3D, t=8.000-(forward).z"
   top color sandybrown
   underneath color crimson
   cube zlen 8

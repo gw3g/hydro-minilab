@@ -4,6 +4,14 @@ set cap round
 set font psncsi
 set hei 0.6
 
+! N = 100; (a,b) = (0,40)
+! dt = .4
+! w0 = 1/[ 1+(x-5)*(x-5) ]
+! eval_x( 40, .20);
+! eval_x( 80, .10);
+! eval_x(160, .05);
+! w/ X = P, no flux correction.
+
 set texlabels 1
 amove .5 4
 begin graph
@@ -28,12 +36,12 @@ begin graph
   d1 line             color gray    lstyle 2 lwidth 0.025 ! t=0
   d2 line             color #0057AE lstyle 1 lwidth 0.05  ! t>0
 
-  data "w, (lax) dt1.dat"  d11=c1,c2
-  data "w, (lax) dt2.dat"  d12=c1,c2
-  data "w, (lax) dt3.dat"  d13=c1,c2
+  data "t=8.000, N=40.dat"  d11=c1,c2
+  data "t=8.000, N=80.dat"  d12=c1,c2
+  data "t=8.000, N=160.dat" d13=c1,c2
 
-  d11 marker fcircle color crimson  msize 0.10 mdist 0 
-  d12 marker fcircle color purple msize 0.10 mdist 0 
+  d11 marker fcircle color purple  msize 0.10 mdist 0 
+  d12 marker fcircle color crimson msize 0.10 mdist 0 
   d13 marker fcircle color #EB811B msize 0.10 mdist 0 
 end graph
 
