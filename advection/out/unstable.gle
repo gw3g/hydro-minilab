@@ -1,0 +1,41 @@
+size 7 4
+set cap round
+set font psncsi
+set hei 0.6
+
+include "color.gle"
+
+begin fitz
+  data "w, (forward).dat"
+  x from 0 to 8 step .3
+  y from 0 to 30 step .4
+  ncontour 6
+end fitz
+
+begin surface
+  size 7 7 
+  data "w, (forward).z"
+  top color sandybrown
+  underneath color crimson
+  cube zlen 8
+  yaxis min 0 max 75 step 20 hei 0.25 ticklen .05
+  xaxis min 0 max 40 step 10 color blue hei 0.25 nolast ticklen .05
+  zaxis min -.5 max 1. off
+  xtitle "t/\delta t" color blue hei 0.4 dist .7
+  ytitle "i^{\setfont{psncsr}th} coordinate" hei 0.4 dist 0.5
+  rotate 80 80 0 
+  view 0 5 0.3
+  harray 5000
+  base  xstep 10 lstyle 1  color blue
+  right xstep 10 lstyle 1 color blue
+end surface
+
+set cap square 
+set color black
+set lwidth 0.04
+amove 2.8 3.3
+rline 0.6 0 arrow end
+rmove 0.2 -.1
+set hei 0.4
+text u
+
