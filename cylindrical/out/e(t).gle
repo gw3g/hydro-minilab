@@ -1,0 +1,43 @@
+size 12 12
+set lwidth 0.08
+set cap round
+set font psncsi
+set hei 0.6
+
+amove 2 2
+begin graph
+  size 9 9 fullsize
+
+  xlabels font psncsr hei 0.5
+  xticks length 0.25
+  ylabels font psncsr hei 0.5
+  yticks length 0.25
+
+  !key offset 8.7 3.9 hei 0.52 
+
+
+  xaxis log min 0.007 max 1000
+  xtitle "\tau" hei 0.5 font psncsi dist 0.5
+  yaxis log min 0.0001 max 1.2 !dticks 
+  !ynames 1 "" "" 10 "" "" 100 
+  ytitle "\varepsilon (r=0)/\varepsilon_0" hei 0.6 font psncsi dist 0.1
+
+  let d1 = (.01/x)^(1.) from 0.01 to 1000
+  let d3 = (.01/x)^(4./3.) from 0.01 to 1000
+  let d4 = (1.4/x)^(1.) from 0.01 to 1000
+
+  d1 line             color #EB811B lstyle 1 lwidth 0.05     ! orange
+  !d2 marker fcircle   color #0057AE msize 0.2               ! blue
+  d3 line             color #E60C00 lstyle 2 lwidth 0.05    ! red
+  d4 line             color #14B03D lstyle 8 lwidth 0.05     ! green
+
+  !d15 line color orange lstyle 1 lwidth 0.04
+  !d16 line color gray lstyle 4 lwidth 0.1
+  !d17 line color crimson lstyle 1 lwidth 0.1
+
+  data "radial i=202, N=10000.dat" d11=c1,c2
+  data "radial i=202, N=10000.dat" d12=c1,c1
+  let d13 = 0.01*d11/d12
+  d13 line smooth color #0057AE lwidth 0.1
+end graph
+
