@@ -18,7 +18,7 @@ begin graph
 
   xaxis log min 0.007 max 1000
   xtitle "\tau" hei 0.5 font psncsi dist 0.5
-  yaxis log min 0.0001 max 1.2 !dticks 
+  yaxis log min 0.000001 max 1.2 !dticks 
   !ynames 1 "" "" 10 "" "" 100 
   ytitle "\varepsilon (r=0)/\varepsilon_0" hei 0.6 font psncsi dist 0.1
 

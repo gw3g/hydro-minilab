@@ -1,4 +1,3 @@
-
 #include "adv.h"
 
 void lax(double x[], double w[], double u[], bnd X) {

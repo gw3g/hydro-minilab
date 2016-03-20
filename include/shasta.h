@@ -5,12 +5,14 @@
 /*-----------------------------------------------------------------------------------------------*/
 /*                                                                "global" over ALL source files */
 
-#define N 100
+#define SIZE 100
+#define DIM  1
+
 //#define a -30.
 //#define b 30.
 
-extern double dt, dx, x0;
-extern double x[N], u[N], w[N];
+extern double dt, dx;
+extern double *x, *u, *w;;
 
 /*-----------------------------------------------------------------------------------------------*/
 
@@ -23,17 +25,14 @@ int coord( int i, bnd X );            // NB: only treats {-1, 0, ..., N-1, N}
 
 //double f0(double);
 
-void init(double *, double *, double *);
-void eval_surf (int, double);
-void eval_x (int, double);
+void init();
+void eval( int, double);
 
+void centre_update( double *, double *, bnd); // unstable
 
-// central diff
-void centre(double *, double);
-
-// upwind
-void upwind(double *, double);
+void upwind_update( double *, double *, bnd); // diffusive
 
 //shasta
-void lax(double *,double *, double *, bnd);
-void fluxL(double *,double *, double *, bnd);
+void LW_update(     double *, double *, bnd); // diffusive
+void flux_correct(  double *, double *, bnd);
+void shasta_1d(     double *, double *, bnd);
