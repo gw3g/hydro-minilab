@@ -1,0 +1,87 @@
+size 10 12
+set lwidth 0.05
+set cap round
+set font psncsi
+set hei 0.6
+
+! N = 100; (a,b) = (0,40)
+! dt = .4
+! w0 = 1/[ 1+(x-5)*(x-5) ]
+! eval_x( 40, .20);
+! eval_x( 80, .10);
+! eval_x(160, .05);
+! w/ X = P, no flux correction.
+
+set texlabels 1
+amove .5 4
+begin graph
+  size 9 9 fullsize
+
+  xlabels font psncsr hei 0.5
+  xticks length 0.25
+  xsubticks on
+  ylabels font psncsr hei 0.5
+  yticks length 0.25
+
+  xaxis min 0 max 20. dticks 10 dsubticks .4
+  xnames 0 " 25 " 50
+  yaxis min -.2 max 1.6 dticks 1
+  x2axis off
+  yaxis off
+
+
+  let d1 = 1./(1.+(x-5)*(x-5))    from 0 to 40 step 0.1
+  let d2 = 1./(1.+(x-13)*(x-13))  from 0 to 40 step .1
+
+  d1 line             color gray    lstyle 2 lwidth 0.025 ! t=0
+  d2 line             color #0057AE lstyle 1 lwidth 0.05  ! t>0
+
+  data "t=8.000, N=40.dat"  d11=c1,c2
+  data "t=8.000, N=80.dat"  d12=c1,c2
+  data "t=8.000, N=160.dat" d13=c1,c2
+
+  d11 marker fcircle color purple  msize 0.10 mdist 0 
+  d12 marker fcircle color crimson msize 0.10 mdist 0 
+  d13 marker fcircle color #EB811B msize 0.10 mdist 0 
+end graph
+
+set hei .5
+
+amove 2.2 10.7
+text \tex{$t=0$}
+amove 5.9 10.7
+text \tex{$t>0$}
+
+amove 1.1 2.7
+text \tex{$i$}^{\setfont{psncsr}th} coordinate
+
+amove 5.9 1
+box 2.8 2 fill lavender round .1 nostroke
+rmove -.1 .15
+box 2.8 2 fill aliceblue round .1 nostroke
+
+set hei .4
+begin key
+  nobox
+  compact
+  position br
+  offset .7 -1.1
+  text "" marker fcircle color purple   msize .3
+  text "" marker fcircle color crimson  msize .3
+  text "" marker fcircle color #EB811B  msize .3
+end key
+
+set hei .65
+amove 6.1 1.95
+text \tex{$\frac{\delta t}{\delta x}$}
+set hei .4
+amove 6.9 2
+text \setfont{plsym2}\char{136}
+set hei .4
+set font psncsr
+amove 7.2 2.5
+text 1/2
+amove 7.2 2.
+text 1/4
+amove 7.2 1.5
+text 1/8

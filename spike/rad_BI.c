@@ -121,31 +121,6 @@ void evo(double x[], double t0[], double tr[], double t) {
 
 FILE *file; char fname[40];
 
-void eval_e_t (int Nt, double del_t) { dt = del_t;
-  double *ev_temp = (double *)malloc( 2*sizeof(double) );
-  double *e   = (double *)malloc( N*sizeof(double) );
-  double *v   = (double *)malloc( N*sizeof(double) );
-
-  ic(x,w,u);
-  sprintf(fname, "out/radial-N=%d.dat",  Nt);
-  file = fopen(fname, "w+");
-
-  for (int n=1; n<Nt;n++) {
-    evo(x,w,u,( (double) n )*dt);
-
-    for (int i=0; i<N; i++) {
-      ev_temp = ev( w[i], u[i] );
-      e[i]   =  ev_temp[0];
-      v[i]   =  ev_temp[1];
-      fprintf(file,       "%d, %.8f, %.8f\n", n, x[i], e[i] );
-    }
-  }
-
-  free(ev_temp);free(e);free(v);
-
-  fclose(file);                                                                             return;
-}
-
 void eval_x (int Nt, double del_t) { dt = del_t;
   double *ev_temp = (double *)malloc( 2*sizeof(double) );
   double *e   = (double *)malloc( N*sizeof(double) );
@@ -166,8 +141,8 @@ void eval_x (int Nt, double del_t) { dt = del_t;
     e[i]   =  ev_temp[0];
     v[i]   =  ev_temp[1];
 
-    /*fprintf(file,       "%.8f, %.8f, %.8f\n", x[i], w[i], u[i] );*/
-    printf(       "%.8f, %.8f, %.8f\n", x[i], e[i], v[i] );
+    fprintf(file,       "%.8f, %.8f, %.8f\n", x[i], w[i], u[i] );
+    /*printf(       "%.8f, %.8f, %.8f\n", x[i], e[i], v[i] );*/
   }
 
   free(ev_temp);free(e);free(v);
@@ -211,7 +186,6 @@ int main() {
   eval_x(210, .01);
   eval_x(310, .01);
   eval_x(410, .01);
-  eval_e_t(10, .01);
   eval_e(10000, .01, 202);
 
   /*eval_x(400, .02);*/

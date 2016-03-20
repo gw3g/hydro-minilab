@@ -1,6 +1,32 @@
-#include "adv.h"
+#include "shasta.h"
 
-void lax(double x[], double w[], double u[], bnd X) {
+void centre_update(double *u, double *w, bnd X) {
+
+  int ic, ip, im;
+  for (int i=0; i<SIZE; i++) {
+    ic=coord(i  ,X);
+    ip=coord(i+1,X);
+    im=coord(i-1,X);
+    w[ic] -= u[ic]*dt*( w[ip] - w[im] )/(2.*dx);
+  }
+
+  return;
+}
+
+void upwind_update(double *u, double *w, bnd X) {
+
+  int ic, im;
+  for (int i=0; i<SIZE; i++) {
+    ic=coord(i  ,X);
+    im=coord(i-1,X);
+    w[ic] -= u[ic]*dt*( w[ic] - w[im] )/(dx);
+  }
+
+  return;
+}
+
+
+void LW_update(double *u, double *w, bnd X) {
   /*
    * Low order temp solution (Lax-Wrendoff) : w = { w^\bullet_i }
    *                                          u = { u_i }
@@ -12,27 +38,29 @@ void lax(double x[], double w[], double u[], bnd X) {
   double     Qp,    Qm,   Di;                             // Q_\pm, \Dela_i
   double     Wc,    Wn = 0.;                              // w {current,next}
 
-  for (int i=-1; i<N; i++) {
+  printf(" %g \n", w[20] );
+
+  for (int i=-1; i<SIZE; i++) {
     Wc = Wn; Wn=0.;                                       // assign Wc > Wn and reset Wn
 
     ic=coord(i  ,X);
     ip=coord(i+1,X);
-    if (i<3) {printf("%d :  ", i);}
+    /*if (i<3) {printf("%d :  ", i);}*/
 
     Qp = ( .5 - l*u[ic] )/( 1. + l*( u[ip] - u[ic] ) );
     Qm = ( .5 + l*u[ip] )/( 1. + l*( u[ip] - u[ic] ) );    // evaluated at i+1
 
                                     Di = w[ip] - w[ic];    // BCs here
 
-    if (i>-1) {Wc += Qp*( .5*Qp*Di + w[ic] ); w[i]=Wc;}    // if ... add to   Wc 
-    if (i<+N) {Wn -= Qm*( .5*Qm*Di - w[ip] );         }    // if ..  sub from Wn
+    if (i>-1)    {Wc += Qp*( .5*Qp*Di + w[ic] ); w[i]=Wc;} // if ... add to   Wc 
+    if (i<+SIZE) {Wn -= Qm*( .5*Qm*Di - w[ip] );         } // if ... sub from Wn
 
-    if (i<3) {printf(" %.4f\n  ", Qm);}
   }
+  printf(" %g \n", w[20] );
                                                            return;
 }
 
-void fluxL(double x[], double ws[], double u[], bnd X) {  
+void flux_correct(double *u, double *ws, bnd X) {  
   /*
    * flux correct :     ws = diffusive soln.
    *                    u  = velocity field
@@ -43,15 +71,15 @@ void fluxL(double x[], double ws[], double u[], bnd X) {
   int        im,    ic,   ip;                               // index triple <i-1,i,i+1>
   int                    sig;                               // sig_i = +/- 1
 
-  double D[N];                                              // no easy way to avoid? :-(
+  double D[SIZE];                                              // no easy way to avoid? :-(
 
-  for (int i=0; i<N; i++) {
+  for (int i=0; i<SIZE; i++) {
     ip=coord(i+1,X);
 
     D[i] = ws[ip] - ws[ i ];
   }
 
-  for (int i=0; i<N-1; i++) {
+  for (int i=0; i<SIZE-1; i++) {
     ic=coord(i  ,X);
     ip=coord(i+1,X); 
     im=coord(i-1,X);
@@ -68,3 +96,7 @@ void fluxL(double x[], double ws[], double u[], bnd X) {
                                                             return;
 }
 
+void shasta_1d( double *u, double *w, bnd X) {
+  LW_update( w, u, X);
+  /*flux_correct( w, u, X);*/
+}
