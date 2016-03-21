@@ -6,20 +6,18 @@
  */
 #include "shasta.h"
 
-double *x, *u, *w;
-
 /*-----------------------------------------------------------------------------------------------*/
 /*                                                          { T00, T0r }  <-->  { ene, vel }     */
 double *ev( double t0, double ti ) {
   // get e-den & vel from em tensor
   double s = ti*ti, ee;
   double *res = (double *)malloc( 2*sizeof(double) );
-  if (s<1e-10) { res[0] = t0; res[1] = 0.; }
-  else {
-    ee = sqrt( 4.*t0*t0 - 3.*s ) - t0;
-    s /= t0 - ee;
-    res[0] = ee; res[1] = ti/s;
-  }
+  if (fabs(t0-fabs(ti)) < 1e-6) 
+       { res[0] =  3.*(t0-fabs(ti));    res[1] =( 3.*fabs(ti)-2.*t0 )/ti; }
+  if (s<1e-6) 
+       { res[0] = t0;                   res[1] = .0;                      }
+  else { ee = sqrt( 4.*t0*t0 - 3.*s ) - t0;
+         res[0] = ee;                   res[1] = (t0-ee)*ti/s;            }
   return res;
 }
 
@@ -36,44 +34,48 @@ double *tt( double ee, double vv ) {
 
 void evo_tr(double x[], double t0[], double tr[], double t) {
   double *ev_temp = (double *)malloc( 2*sizeof(double) );;
-  double *boa = (double *)malloc( N*sizeof(double) );
-  double *s0  = (double *)malloc( N*sizeof(double) );
-  double *sr  = (double *)malloc( N*sizeof(double) );
-  double *e   = (double *)malloc( N*sizeof(double) );
-  double *v   = (double *)malloc( N*sizeof(double) );
+  double *boa = (double *)malloc( SIZE*sizeof(double) );
+  double *s0  = (double *)malloc( SIZE*sizeof(double) );
+  double *sr  = (double *)malloc( SIZE*sizeof(double) );
+  double *e   = (double *)malloc( SIZE*sizeof(double) );
+  double *v   = (double *)malloc( SIZE*sizeof(double) );
   int ip, im;
 
+  /*printf(" %g, %g, %g \n", x[10], t0[10], tr[10]);*/
+
   // needs fixing! rather make lax and fluxL return pointers!!
-  for (int i=0; i<N; i++) {
+  for (int i=0; i<SIZE; i++) {
     ev_temp = ev( t0[i], tr[i] );
     e[i]   =  ev_temp[0];
     v[i]   =  ev_temp[1];
     boa[i] = tr[i] / t0[i];
   }
-  for (int i=0; i<N; i++) {
+  for (int i=0; i<SIZE; i++) {
     ip = coord(i+1,F);
     im = coord(i-1,F);
 
-    s0[i]  = -  x[i]*e[i ] / (3.);
-    sr[i]  = -t*x[i]*( e[ip]-e[im] )/(3.*2.*dx);
-    t0[i] *= t*x[i];
-    tr[i] *= t*x[i];
+    s0[i]  = -  e[i]/(3.) - t*tr[i]/x[i];
+    sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx) - v[i]*t*tr[i]/x[i];
+    t0[i] *= t;
+    tr[i] *= t;
   }
 
-  lax(x, t0, boa, F);
-  lax(x, tr, v, F);
+  printf(" %g, %g, %g \n", x[50], t0[50], tr[50]);
+  LW_update(boa, t0, F);
+  LW_update(  v, tr, F);
+  printf(" %g, %g, %g \n", x[50], t0[50], tr[50]);
 
-  for (int i=0; i<N; i++) {
+  for (int i=0; i<SIZE; i++) {
     t0[i] += dt*s0[i];
     tr[i] += dt*sr[i];
   }
 
-  fluxL(x, t0, boa, F);
-  fluxL(x, tr, v, F);
+  flux_correct(boa, t0, F);
+  flux_correct(  v, tr, F);
 
-  for (int i=0; i<N; i++) {
-    t0[i] /= t*x[i];
-    tr[i] /= t*x[i];
+  for (int i=0; i<SIZE; i++) {
+    t0[i] /= t;
+    tr[i] /= t;
   }
 
   free(boa);free(s0);free(sr);free(e);free(v);free(ev_temp);
