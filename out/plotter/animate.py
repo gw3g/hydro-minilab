@@ -9,24 +9,25 @@ fig, ax = plt.subplots()
 
 plt.ylim([-.6,1.2])
 
-x = np.arange(0, 40, 0.01)
+x = np.arange(-20., 20, 0.01)
 #line, = ax.plot(x, np.sin(x))
 
 data = np.genfromtxt("out/data/Evo.dat", delimiter=',')
 
 xt = data[:100,1]
-yt = data[::100,0]
+tt = data[::100,0]
 
-X, Y = np.meshgrid(xt,yt)
-Z = data[:,2].reshape(len(yt),len(xt))
+#X, Y = np.meshgrid(et,xt)
+ENE = data[:,2].reshape(len(tt),len(xt))
+VEL = data[:,3].reshape(len(tt),len(xt))
 
-line, = ax.plot(xt, Z[0])
+print(x)
 
-#print(xt)
-
+line, = ax.plot(xt, ENE[0])
+ax.plot(xt, ENE[0])
 
 def animate(i):
-    line.set_ydata(Z[i])
+    line.set_ydata(ENE[i])
     return line,
 
 
@@ -35,6 +36,6 @@ def init():
     line.set_ydata(np.ma.array(xt, mask=True))
     return line,
 
-ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), init_func=init,
+ani = animation.FuncAnimation(fig, animate, np.arange(1, 79), init_func=init,
                               interval=20, blit=True)
 plt.show()

@@ -36,3 +36,9 @@ void upwind_update( double *, double *, bnd); // diffusive
 void LW_update(     double *, double *, bnd); // diffusive
 void flux_correct(  double *, double *, bnd);
 void shasta_1d(     double *, double *, bnd);
+
+void evo_tr(double *, double *, double *, double);
+
+// hydro
+double *ev( double, double);
+double *tt( double, double);

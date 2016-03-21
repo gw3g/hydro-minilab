@@ -38,14 +38,11 @@ void LW_update(double *u, double *w, bnd X) {
   double     Qp,    Qm,   Di;                             // Q_\pm, \Dela_i
   double     Wc,    Wn = 0.;                              // w {current,next}
 
-  printf(" %g \n", w[20] );
-
   for (int i=-1; i<SIZE; i++) {
     Wc = Wn; Wn=0.;                                       // assign Wc > Wn and reset Wn
 
     ic=coord(i  ,X);
     ip=coord(i+1,X);
-    /*if (i<3) {printf("%d :  ", i);}*/
 
     Qp = ( .5 - l*u[ic] )/( 1. + l*( u[ip] - u[ic] ) );
     Qm = ( .5 + l*u[ip] )/( 1. + l*( u[ip] - u[ic] ) );    // evaluated at i+1
@@ -56,7 +53,6 @@ void LW_update(double *u, double *w, bnd X) {
     if (i<+SIZE) {Wn -= Qm*( .5*Qm*Di - w[ip] );         } // if ... sub from Wn
 
   }
-  printf(" %g \n", w[20] );
                                                            return;
 }
 

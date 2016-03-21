@@ -25,8 +25,8 @@ int pixels() {
 }
 
 double f0(double x) { 
-  return 1./(1.+x*x); 
-  /*return 1./(exp( x*2. )+1.)+0.000001;*/
+  /*return 1./(1.+x*x); */
+  return 1./(exp( fabs(x)-5. )+1.);
 }
 
 
@@ -40,12 +40,12 @@ void init() {
   x = (double *)malloc( DIM*N*sizeof(double) );
   u = (double *)malloc( DIM*N*sizeof(double) );
   w = (double *)malloc( N*sizeof(double) );
-  double x0 = 0.;
+  double x0 = -N*(dx/2.0)+0.07;
   for (int i=0; i<N; i++) {
                             x[i] = x0 + dx*((double) i)   ; 
-                            u[i] = 1.                   ;
+                            u[i] = 0.                   ;
                             /*w[i] = f0( x[i] - 5. )      ;*/
-                            w[i] = f0( x[i] - 5. )      ;
+                            w[i] = (f0( x[i]  )+0.001);
   }
   return;
 }
