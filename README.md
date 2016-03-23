@@ -13,6 +13,8 @@ We study first the incompressible advection equation (uniform velocity). This se
 as the first consistency check. We then solve a one dimensional hydrodynamics problem,
 with a radially symmetry geometry.
 
+Longitudinal expansion: Landau stopping vs. Bjorken.
+
 ## Case study: d=2
 
 TODO, off-central collisions.
