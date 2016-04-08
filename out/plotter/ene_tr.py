@@ -11,6 +11,7 @@ origin = 'lower'
 data = np.genfromtxt("out/data/Evo.dat", delimiter=',')
 d2 = np.genfromtxt("out/data/e(0.07), tf=10.dat", delimiter=',')
 #f, (ax1,ax2) = plt.subplots(2, sharex=True)
+plt.figure(figsize=(4,6))
 plt.subplots_adjust(hspace=.4)
 
 delta = 0.025
@@ -56,7 +57,7 @@ CS2 = plt.contour(CS, levels=CS.levels[::2],
                   origin=origin,
                   hold='on')
 
-plt.title(r'radial expansion', family='Times New Roman')
+plt.title(r'radial expansion')
 plt.clabel(CS2, inline=1,fontsize=14)
 plt.xlabel(r'$r$')
 plt.ylabel(r'$\tau$')
