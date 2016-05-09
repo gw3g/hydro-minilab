@@ -12,11 +12,7 @@ data = np.genfromtxt("out/data/Evo.dat", delimiter=',')
 d2 = np.genfromtxt("out/data/e(0.07), tf=10.dat", delimiter=',')
 #f, (ax1,ax2) = plt.subplots(2, sharex=True)
 plt.figure(figsize=(4,6))
-<<<<<<< HEAD
-plt.subplots_adjust(hspace=.2)
-=======
 plt.subplots_adjust(hspace=.4)
->>>>>>> 930e795ca98d7e9cfdbd44ca1c1ecd04aea1cfc0
 
 delta = 0.025
 
@@ -75,6 +71,6 @@ cbar.ax.set_ylabel('energy density')
 cbar.add_lines(CS2)
 #plt.show()
 sopt = {'dpi':300}
-plt.savefig("test1.pdf",**sopt)
+plt.savefig("out/test1.pdf",**sopt)
 
 

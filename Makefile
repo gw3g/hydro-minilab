@@ -24,6 +24,8 @@ $(ODIR)/%.o: $(SDIR)/%.$(SRCEXT)
 
 plotter1:
 	gle -o "out/unstable.pdf" -d pdf "out/plotter/unstable.gle"
+plotter2:
+	python "out/plotter/ene_tr.py"
 
 clean:
 	@echo "Cleaning : $(RM) -r $(ODIR) $(TARGET)"; $(RM) -r $(ODIR) $(TARGET)
