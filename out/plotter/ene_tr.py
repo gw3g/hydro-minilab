@@ -71,6 +71,6 @@ cbar.ax.set_ylabel('energy density')
 cbar.add_lines(CS2)
 #plt.show()
 sopt = {'dpi':300}
-plt.savefig("test1.pdf",**sopt)
+plt.savefig("out/test1.pdf",**sopt)
 
 
