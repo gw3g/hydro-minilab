@@ -54,10 +54,12 @@ void evo_tr(double x[], double t0[], double tr[], double t) {
     ip = coord(i+1,F);
     im = coord(i-1,F);
 
-    s0[i]  = -  e[i]/(3.) - t*tr[i]/x[i];
-    sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx) - v[i]*t*tr[i]/x[i];
-    t0[i] *= t;
-    tr[i] *= t;
+    s0[i]  = 0.;
+    sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx);
+    /*s0[i]  = -  e[i]/(3.) - t*tr[i]/x[i];*/
+    /*sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx) - v[i]*t*tr[i]/x[i];*/
+    /*t0[i] *= t;*/
+    /*tr[i] *= t;*/
   }
 
   printf(" %g, %g, %g \n", x[50], t0[50], tr[50]);

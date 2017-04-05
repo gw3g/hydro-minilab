@@ -26,7 +26,7 @@ int pixels() {
 
 double f0(double x) { 
   /*return 1./(1.+x*x); */
-  return 1./(exp( fabs(x)-5. )+1.);
+  return 1./(exp( fabs(x))+1.);
 }
 
 
@@ -43,9 +43,16 @@ void init() {
   double x0 = -N*(dx/2.0)+0.07;
   for (int i=0; i<N; i++) {
                             x[i] = x0 + dx*((double) i)   ; 
-                            u[i] = 0.                   ;
+                            /*u[i] = 0.                   ;*/
+                            u[i] = 0.;
+                            w[i] = 0.1;
+                            if (fabs(x[i])<.6) {
+                              u[i] = tanh(x[i]/.6)                   ;
+                              w[i] = pow( 1.-x[i]*x[i]/(.6*.6), -2./3. )+.1;
+                            }
+                            printf(" %g \n", w[i]);
                             /*w[i] = f0( x[i] - 5. )      ;*/
-                            w[i] = (f0( x[i]  )+0.001);
+                            /*w[i] = (f0( x[i]  )+0.1);*/
   }
   return;
 }

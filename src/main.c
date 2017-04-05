@@ -5,8 +5,8 @@
 
 /* external parameters */
 
-double dt = .2;
-double dx = .4;
+double dt = .001;
+double dx = .2;
 /*(b-a)/( (double) SIZE );*/
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -87,13 +87,13 @@ void ener (int Nt, double del_t) { dt = del_t;
     /*shasta_1d( u, w, P);       // central diff update*/
     /*LW_update( u, w, P);*/
     /*flux_correct( u, w, P);*/
-    evo_tr(x,w,u,.6+dt*((double) n));
 
     // OUTPUT                                      iteration,    coordinate,       scalar
     for (int i=0; i<SIZE; i++) {    
       temp_ev = ev( w[ix], u[ix] );
       fprintf(file,   "%.8f, %.8f \n",   .6+dt*((double) n), temp_ev[0]   ); 
     }
+    evo_tr(x,w,u,.6+dt*((double) n));
   } 
   fclose(file);                                                                             return;
 }
