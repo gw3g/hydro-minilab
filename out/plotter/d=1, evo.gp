@@ -7,7 +7,7 @@ eDen(t,c2s) = (1./t)**(1.+c2s)
 set xl 'tau'
 set yl "z"
 
-#set yr [0.02:1]
+set zr [0:5]
 
 set grid
 set key l b

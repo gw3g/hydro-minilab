@@ -15,7 +15,8 @@ set grid
 set key l b
 
 set tit "d=1 hydro, Bj initial cond."
-p '../data/e(0.07), tf=10.dat' w l lt 7 t "e(t)",\
+p '../data/e(0), tf=1.dat' w l lt 3 t "e(0,t)",\
+  '../data/e(-0.0125), tf=1.dat' w l lt 7 t "e(z,t)",\
   eDen(x/.6,.3) w l t "c2s=.3"
 pause -1
 

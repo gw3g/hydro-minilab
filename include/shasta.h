@@ -5,7 +5,7 @@
 /*-----------------------------------------------------------------------------------------------*/
 /*                                                                "global" over ALL source files */
 
-#define SIZE 100
+#define SIZE 200
 #define DIM  1
 
 //#define a -30.
