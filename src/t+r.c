@@ -12,9 +12,9 @@ double *ev( double t0, double ti ) {
   // get e-den & vel from em tensor
   double s = ti*ti, ee;
   double *res = (double *)malloc( 2*sizeof(double) );
-  if (fabs(t0-fabs(ti)) < 1e-6) 
+  if (fabs(t0-fabs(ti)) < 1e-4) 
        { res[0] =  3.*(t0-fabs(ti));    res[1] =( 3.*fabs(ti)-2.*t0 )/ti; }
-  if (s<1e-6) 
+  if (s<1e-4) 
        { res[0] = t0;                   res[1] = .0;                      }
   else { ee = sqrt( 4.*t0*t0 - 3.*s ) - t0;
          res[0] = ee;                   res[1] = (t0-ee)*ti/s;            }
@@ -55,7 +55,7 @@ void evo_tr(double x[], double t0[], double tr[], double t) {
     im = coord(i-1,F);
 
     s0[i]  = 0.;
-    sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx);
+    sr[i]  = -( e[ip]-e[im] )/(3.*2.*dx);
     /*s0[i]  = -  e[i]/(3.) - t*tr[i]/x[i];*/
     /*sr[i]  = -t*( e[ip]-e[im] )/(3.*2.*dx) - v[i]*t*tr[i]/x[i];*/
     /*t0[i] *= t;*/
@@ -75,10 +75,10 @@ void evo_tr(double x[], double t0[], double tr[], double t) {
   flux_correct(boa, t0, F);
   flux_correct(  v, tr, F);
 
-  for (int i=0; i<SIZE; i++) {
-    t0[i] /= t;
-    tr[i] /= t;
-  }
+  /*for (int i=0; i<SIZE; i++) {*/
+    /*t0[i] /= t;*/
+    /*tr[i] /= t;*/
+  /*}*/
 
   free(boa);free(s0);free(sr);free(e);free(v);free(ev_temp);
   return;

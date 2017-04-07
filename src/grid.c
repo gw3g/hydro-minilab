@@ -40,15 +40,15 @@ void init() {
   x = (double *)malloc( DIM*N*sizeof(double) );
   u = (double *)malloc( DIM*N*sizeof(double) );
   w = (double *)malloc( N*sizeof(double) );
-  double x0 = -N*(dx/2.0)+0.07;
+  double x0 = -(N)*(dx/2.0);
   for (int i=0; i<N; i++) {
                             x[i] = x0 + dx*((double) i)   ; 
                             /*u[i] = 0.                   ;*/
                             u[i] = 0.;
-                            w[i] = 0.1;
+                            w[i] = 0.01;
                             if (fabs(x[i])<.6) {
-                              u[i] = tanh(x[i]/.6)                   ;
-                              w[i] = pow( 1.-x[i]*x[i]/(.6*.6), -2./3. )+.1;
+                              u[i] = tanh(x[i]/.64)                   ;
+                              w[i] = pow( 1.-x[i]*x[i]/(.64*.64), -2./3. )+.01;
                             }
                             printf(" %g \n", w[i]);
                             /*w[i] = f0( x[i] - 5. )      ;*/

@@ -6,7 +6,7 @@
 /* external parameters */
 
 double dt = .001;
-double dx = .2;
+double dx = .05;
 /*(b-a)/( (double) SIZE );*/
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -24,8 +24,8 @@ int main() {
   /*eval_x(1000, .02);*/
 
   /*dt = .2;*/
-  eval(100, .1);
-  ener(100, .1);
+  eval(100, .01);
+  ener(100, .01);
 
   /* 
   eval_x(40, .2);
@@ -64,7 +64,7 @@ void eval (int Nt, double del_t) { dt = del_t;
 
     // OUTPUT                                      iteration,    coordinate,       scalar
     for (int i=0; i<SIZE; i++) {    
-      fprintf(file,   "%.8f, %.8f, %.8f, %8f\n",       dt*((double) n),  x[i],        w[i], u[i]   ); 
+      fprintf(file,   "%.8f, %.8f, %.8f, %8f\n",       .6+dt*((double) n),  x[i],        w[i], u[i]   ); 
     }
   } 
   fclose(file);                                                                             return;
@@ -72,7 +72,7 @@ void eval (int Nt, double del_t) { dt = del_t;
 
 void ener (int Nt, double del_t) { dt = del_t;
 
-  int ix = 50;
+  int ix = 100;
   init();
   sprintf(fname, "out/data/e(%g), tf=%g.dat", x[ix], ( (double) Nt )*dt);
   file = fopen(fname, "w+");

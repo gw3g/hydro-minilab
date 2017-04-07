@@ -82,7 +82,7 @@ void flux_correct(double *u, double *ws, bnd X) {
 
     sig = (int) ( (D[ic]>0) - (D[ic]<0) );                  //  = sign( D[ic] )
     Ai = sig*fmax(0,
-                      fmin( fabs(D[ic]/8), 
+                      fmin( fabs(D[ic]*.11), 
                             fmin( sig*D[ip], sig*D[im] ) 
                           )
                     );
@@ -94,5 +94,5 @@ void flux_correct(double *u, double *ws, bnd X) {
 
 void shasta_1d( double *u, double *w, bnd X) {
   LW_update( w, u, X);
-  /*flux_correct( w, u, X);*/
+  flux_correct( w, u, X);
 }
